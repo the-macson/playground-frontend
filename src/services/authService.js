@@ -31,10 +31,13 @@ export const getRole = () => {
 }
 
 export const isLoggedIn = (role) => {
-    if (getToken() && getRole() === role) {
+    const userTypes = ['','user','admin'];
+    if (getToken() && userTypes.indexOf(role) == getRole()) {
+        http.setToken(getToken());
         return true;
     }
     if(getToken() && !role){
+        http.setToken(getToken());
         return true;
     }
     return false;

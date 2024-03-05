@@ -17,9 +17,9 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import ThemeToggle from "../../components/ThemeToggle";
+import ThemeToggle from "../../../components/ThemeToggle";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { login, setToken , setRole, isLoggedIn } from "../../services/authService";
+import { login, setToken , setRole, isLoggedIn } from "../../../services/authService";
 import { useRouter } from "next/navigation";
 export default function Login() {
   const Router = useRouter();

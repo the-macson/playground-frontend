@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import ThemeToggle from "../../components/ThemeToggle";
+import ThemeToggle from "../../../components/ThemeToggle";
 import { register , setToken, setRole, isLoggedIn } from "@/services/authService";
 import { useRouter } from "next/navigation";
 const page = () => {
