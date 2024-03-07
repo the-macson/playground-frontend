@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Box , Flex} from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import Split from "react-split";
 import "./style.css";
 import ReactCodeMirror from "@uiw/react-codemirror";
@@ -17,11 +17,17 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/react";
+import { submitSolution } from "@/services/userService";
+import { StreamLanguage } from "@codemirror/language";
+import { cpp } from "@codemirror/lang-cpp";
+import Swal from "sweetalert2";
 
 const page = ({ params }) => {
   const [problem, setProblem] = useState({});
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [passedTestCase, setPassedTestCase] = useState(null);
+  const [code, setCode] = useState("");
   const router = useRouter();
   const programmingLanguage = [
     {
@@ -53,6 +59,24 @@ const page = ({ params }) => {
     } else router.push("/login");
     fetchProblem();
   }, [params.id]);
+
+  const handleSubmit = async () => {
+    const body = {
+      id: params.id,
+      code: code,
+    };
+    try {
+      const { data } = await submitSolution(body);
+      setPassedTestCase(data.passedTestCases);
+      console.log(data);
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: JSON.stringify(error.response.data.error),
+      });
+    }
+  };
   if (loading) {
     return (
       <Box
@@ -114,8 +138,17 @@ const page = ({ params }) => {
               <div className="h-[80px]">
                 <Divider />
                 <div className="flex px-2 py-4 h-full overflow-x-auto justify-between items-center">
-                  <div>Number of test cases: {problem.numberOfTestCases}</div>
-                  <Button color="primary">Submit</Button>
+                  {passedTestCase !== null ? (
+                    <div>
+                      Number of test cases passed: {passedTestCase} /{" "}
+                      {problem.numberOfTestCases}
+                    </div>
+                  ) : (
+                    <div>Number of test cases: {problem.numberOfTestCases}</div>
+                  )}
+                  <Button onClick={handleSubmit} color="primary">
+                    Submit
+                  </Button>
                 </div>
               </div>
             </div>
@@ -126,9 +159,11 @@ const page = ({ params }) => {
             <Flex h={"55px"} justify={"flex-end"} alignItems={"center"} mr={5}>
               <Dropdown>
                 <DropdownTrigger>
-                  <Button variant="bordered">Select Language</Button>
+                  <Button variant="bordered">
+                    {/* Select Language */} C++
+                  </Button>
                 </DropdownTrigger>
-                <DropdownMenu
+                {/* <DropdownMenu
                   aria-label="Dynamic Actions"
                   items={programmingLanguage}>
                   {(item) => (
@@ -139,10 +174,19 @@ const page = ({ params }) => {
                       {item.label}
                     </DropdownItem>
                   )}
-                </DropdownMenu>
+                </DropdownMenu> */}
               </Dropdown>
             </Flex>
-            <ReactCodeMirror width="100%" height={"calc(100vh - 55px)"} theme={tokyoNight} />
+            <ReactCodeMirror
+              width="100%"
+              height={"calc(100vh - 55px)"}
+              theme={tokyoNight}
+              extensions={[cpp()]}
+              onChange={(value) => {
+                console.log(value);
+                setCode(value);
+              }}
+            />
           </Box>
         </Box>
       </Split>
