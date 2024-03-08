@@ -15,11 +15,17 @@ import {
   FormErrorMessage,
   InputGroup,
   InputRightElement,
+  Link,
 } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import ThemeToggle from "../../../components/ThemeToggle";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { login, setToken , setRole, isLoggedIn } from "../../../services/authService";
+import {
+  login,
+  setToken,
+  setRole,
+  isLoggedIn,
+} from "../../../services/authService";
 import { useRouter } from "next/navigation";
 export default function Login() {
   const Router = useRouter();
@@ -39,24 +45,24 @@ export default function Login() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const errorHandling = () =>{
+  const errorHandling = () => {
     var error = {};
-    if(!form.email || form.email === ""){
+    if (!form.email || form.email === "") {
       error["email"] = "Email is required";
     }
     if (!form.password || form.password === "") {
       error["password"] = "Password is required";
-    } 
+    }
     setError(error);
     console.log(error);
-    if(Object.keys(error).length > 0){
+    if (Object.keys(error).length > 0) {
       return true;
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(errorHandling()){
+    if (errorHandling()) {
       return;
     }
     login(form)
@@ -79,8 +85,7 @@ export default function Login() {
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
-      position={"relative"}
-    >
+      position={"relative"}>
       <ThemeToggle />
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
@@ -93,8 +98,7 @@ export default function Login() {
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
-          p={8}
-        >
+          p={8}>
           <Stack spacing={4}>
             <FormControl id="email" isRequired isInvalid={error.email}>
               <FormLabel>Email address</FormLabel>
@@ -114,8 +118,7 @@ export default function Login() {
                     variant={"ghost"}
                     onClick={() =>
                       setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
+                    }>
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
@@ -138,10 +141,23 @@ export default function Login() {
                 _hover={{
                   bg: "blue.500",
                 }}
-                onClick={handleSubmit}
-              >
+                onClick={handleSubmit}>
                 Sign in
               </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>
+                Don't have an account?{" "}
+                <Text
+                  as={"span"}
+                  color={"blue.400"}
+                  cursor={"pointer"}
+                  onClick={() => {
+                    Router.push("/signup");
+                  }}>
+                  Sign up
+                </Text>
+              </Text>
             </Stack>
           </Stack>
         </Box>

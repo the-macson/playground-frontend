@@ -21,6 +21,7 @@ import { submitSolution } from "@/services/userService";
 import { StreamLanguage } from "@codemirror/language";
 import { cpp } from "@codemirror/lang-cpp";
 import Swal from "sweetalert2";
+import NavBar from "@/components/NavBar";
 
 const page = ({ params }) => {
   const [problem, setProblem] = useState({});
@@ -89,81 +90,88 @@ const page = ({ params }) => {
     );
   }
   return (
-    <Box h={"100vh"}>
-      <Split
-        className="wrap"
-        sizes={[50, 50]}
-        minSize={100}
-        expandToMin={false}
-        gutterSize={10}
-        gutterAlign="center"
-        snapOffset={30}
-        dragInterval={1}
-        direction="horizontal"
-        cursor="col-resize">
-        <Box h={"100vh"}>
-          <Box h={"100vh"}>
-            <div className="bg-dark-layer-1">
-              <ScrollShadow
-                hideScrollBar
-                className="flex px-2 py-4 h-[calc(100vh-80px)] overflow-y-auto">
-                <div className="px-5">
-                  <div className="w-full">
-                    <div className="flex space-x-4">
-                      <div className="flex-1 mr-2 text-lg text-white font-medium">
-                        {problem.title}
+    <NavBar>
+      <Box>
+        <Split
+          className="wrap"
+          sizes={[50, 50]}
+          minSize={100}
+          expandToMin={false}
+          gutterSize={10}
+          gutterAlign="center"
+          snapOffset={30}
+          dragInterval={1}
+          direction="horizontal"
+          cursor="col-resize">
+          <Box>
+            <Box>
+              <div className="bg-dark-layer-1">
+                <ScrollShadow
+                  hideScrollBar
+                  className="flex px-2 py-4 h-[calc(100vh-142px)] overflow-y-auto">
+                  <div className="px-5">
+                    <div className="w-full">
+                      <div className="flex space-x-4">
+                        <div className="flex-1 mr-2 text-lg text-white font-medium">
+                          {problem.title}
+                        </div>
                       </div>
-                    </div>
-                    <Divider />
-                    <div className="flex items-center mt-2">
-                      <div
-                        className={`inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize bg-white`}>
-                        {problem.difficulty == 1
-                          ? "Easy"
-                          : problem.difficulty == 2
-                          ? "Medium"
-                          : "Hard"}
+                      <Divider />
+                      <div className="flex items-center mt-2">
+                        <div
+                          className={`inline-block rounded-[21px] bg-opacity-[.15] px-2.5 py-1 text-xs font-medium capitalize bg-white`}>
+                          {problem.difficulty == 1
+                            ? "Easy"
+                            : problem.difficulty == 2
+                            ? "Medium"
+                            : "Hard"}
+                        </div>
                       </div>
-                    </div>
-                    <div className="text-white text-base my-3">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: problem.description,
-                        }}
-                      />
+                      <div className="text-white text-base my-3">
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: problem.description,
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ScrollShadow>
-              <div className="h-[80px]">
-                <Divider />
-                <div className="flex px-2 py-4 h-full overflow-x-auto justify-between items-center">
-                  {passedTestCase !== null ? (
-                    <div>
-                      Number of test cases passed: {passedTestCase} /{" "}
-                      {problem.numberOfTestCases}
-                    </div>
-                  ) : (
-                    <div>Number of test cases: {problem.numberOfTestCases}</div>
-                  )}
-                  <Button onClick={handleSubmit} color="primary">
-                    Submit
-                  </Button>
+                </ScrollShadow>
+                <div className="h-[80px]">
+                  <Divider />
+                  <div className="flex px-2 py-4 h-full overflow-x-auto justify-between items-center">
+                    {passedTestCase !== null ? (
+                      <div>
+                        Number of test cases passed: {passedTestCase} /{" "}
+                        {problem.numberOfTestCases}
+                      </div>
+                    ) : (
+                      <div>
+                        Number of test cases: {problem.numberOfTestCases}
+                      </div>
+                    )}
+                    <Button onClick={handleSubmit} color="primary">
+                      Submit
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Box>
           </Box>
-        </Box>
-        <Box h={"100vh"}>
-          <Box h={"100vh"} overflow={"auto"}>
-            <Flex h={"55px"} justify={"flex-end"} alignItems={"center"} mr={5}>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button variant="bordered">
-                    {/* Select Language */} C++
-                  </Button>
-                </DropdownTrigger>
-                {/* <DropdownMenu
+          <Box>
+            <Box overflow={"auto"}>
+              <Flex
+                h={"55px"}
+                justify={"flex-end"}
+                alignItems={"center"}
+                mr={5}>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant="bordered">
+                      {/* Select Language */} C++
+                    </Button>
+                  </DropdownTrigger>
+                  {/* <DropdownMenu
                   aria-label="Dynamic Actions"
                   items={programmingLanguage}>
                   {(item) => (
@@ -175,22 +183,23 @@ const page = ({ params }) => {
                     </DropdownItem>
                   )}
                 </DropdownMenu> */}
-              </Dropdown>
-            </Flex>
-            <ReactCodeMirror
-              width="100%"
-              height={"calc(100vh - 55px)"}
-              theme={tokyoNight}
-              extensions={[cpp()]}
-              onChange={(value) => {
-                console.log(value);
-                setCode(value);
-              }}
-            />
+                </Dropdown>
+              </Flex>
+              <ReactCodeMirror
+                width="100%"
+                height={"calc(100vh - 130px)"}
+                theme={tokyoNight}
+                extensions={[cpp()]}
+                onChange={(value) => {
+                  console.log(value);
+                  setCode(value);
+                }}
+              />
+            </Box>
           </Box>
-        </Box>
-      </Split>
-    </Box>
+        </Split>
+      </Box>
+    </NavBar>
   );
 };
 

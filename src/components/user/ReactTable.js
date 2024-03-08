@@ -22,39 +22,46 @@ import {
   Select,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 const columnHelper = createColumnHelper();
-const columns = [
-  columnHelper.accessor("id", {
-    header: "ID",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("title", {
-    header: "Title",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("difficulty", {
-    header: "Difficulty",
-    cell: (info) =>
-      info.getValue() == 1 ? "Easy" : info.getValue() == 2 ? "Medium" : "Hard",
-  }),
-  columnHelper.accessor((row) => row.id, {
-    header: "Update",
-    id: "update",
-    cell: (info) => (
-      <Button
-        onClick={() => {
-          // Handle update action
-        }}>
-        Update
-      </Button>
-    ),
-  }),
-];
+
 
 export default function ReactTable({ dataArray }) {
+  const Router = useRouter();
   const [isLoading, setIsLoading] = React.useState(true);
   const data = React.useMemo(() => [...dataArray], []);
+  const columns = [
+    columnHelper.accessor("id", {
+      header: "ID",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("title", {
+      header: "Title",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("difficulty", {
+      header: "Difficulty",
+      cell: (info) =>
+        info.getValue() == 1
+          ? "Easy"
+          : info.getValue() == 2
+          ? "Medium"
+          : "Hard",
+    }),
+    columnHelper.accessor((row) => row.id, {
+      header: "Status",
+      id: "update",
+      cell: (info) => (
+        <Button
+          onClick={() => {
+            Router.push(`/problem/${info.row.original.id}`);
+          }}>
+          Solve
+        </Button>
+      ),
+    }),
+  ];
   const {
     getHeaderGroups,
     getRowModel,

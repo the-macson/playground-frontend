@@ -7,7 +7,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <CacheProvider>
       <ChakraProvider>
-        <NextUIProvider>{children}</NextUIProvider>
+        <NextUIProvider>
+          {children}
+        </NextUIProvider>
       </ChakraProvider>
     </CacheProvider>
   );

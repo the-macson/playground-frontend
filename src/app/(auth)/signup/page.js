@@ -20,7 +20,12 @@ import {
 import { useState, useEffect } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import ThemeToggle from "../../../components/ThemeToggle";
-import { register , setToken, setRole, isLoggedIn } from "@/services/authService";
+import {
+  register,
+  setToken,
+  setRole,
+  isLoggedIn,
+} from "@/services/authService";
 import { useRouter } from "next/navigation";
 const page = () => {
   const Router = useRouter();
@@ -71,23 +76,24 @@ const page = () => {
       console.log(error);
       return;
     }
-    register(form).then(({data}) => {
-      setToken(data.authtoken);
-      setRole(data.role);
-      Router.push("/");
-    }).catch((err) => {
-      var error = {};
-      error["submission"] = err.response.data.message;
-      setError(error);
-    });
+    register(form)
+      .then(({ data }) => {
+        setToken(data.authtoken);
+        setRole(data.role);
+        Router.push("/");
+      })
+      .catch((err) => {
+        var error = {};
+        error["submission"] = err.response.data.message;
+        setError(error);
+      });
   };
   return (
     <Flex
       minH={"100vh"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
+      bg={useColorModeValue("gray.50", "gray.800")}>
       <ThemeToggle />
       <Stack spacing={4} mx={"auto"} maxW={"lg"} py={4} px={6}>
         <Stack align={"center"}>
@@ -102,8 +108,7 @@ const page = () => {
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
-          p={8}
-        >
+          p={8}>
           <Stack spacing={4}>
             <HStack>
               <Box>
@@ -117,8 +122,7 @@ const page = () => {
                 <FormControl
                   id="username"
                   isRequired
-                  isInvalid={error.username}
-                >
+                  isInvalid={error.username}>
                   <FormLabel>Username</FormLabel>
                   <Input type="text" name="username" onChange={handleChange} />
                   <FormErrorMessage>{error.username}</FormErrorMessage>
@@ -143,8 +147,7 @@ const page = () => {
                     variant={"ghost"}
                     onClick={() =>
                       setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
+                    }>
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
@@ -154,8 +157,7 @@ const page = () => {
             <FormControl
               id="confirmpassword"
               isRequired
-              isInvalid={error.confirmPassword}
-            >
+              isInvalid={error.confirmPassword}>
               <FormLabel>Confirm Password</FormLabel>
               <InputGroup>
                 <Input
@@ -168,8 +170,7 @@ const page = () => {
                     variant={"ghost"}
                     onClick={() =>
                       setShowPassword((showPassword) => !showPassword)
-                    }
-                  >
+                    }>
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
@@ -186,14 +187,22 @@ const page = () => {
                 _hover={{
                   bg: "blue.500",
                 }}
-                onClick={handleSubmit}
-              >
+                onClick={handleSubmit}>
                 Sign up
               </Button>
             </Stack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <Link color={"blue.400"} href="/login" >Login</Link>
+                Already a user?{" "}
+                <Text
+                  as={"span"}
+                  color={"blue.400"}
+                  cursor={"pointer"}
+                  onClick={() => {
+                    Router.push("login");
+                  }}>
+                  Sign In
+                </Text>
               </Text>
             </Stack>
           </Stack>
