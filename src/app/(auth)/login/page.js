@@ -36,6 +36,9 @@ export default function Login() {
 
   useEffect(() => {
     if (isLoggedIn()) {
+      if (isLoggedIn("admin")) {
+        Router.push("/admin/problem");
+      }
       setLoggedIn(true);
       Router.push("/");
     }
@@ -85,7 +88,8 @@ export default function Login() {
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
-      position={"relative"}>
+      position={"relative"}
+    >
       <ThemeToggle />
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
@@ -98,7 +102,8 @@ export default function Login() {
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
           boxShadow={"lg"}
-          p={8}>
+          p={8}
+        >
           <Stack spacing={4}>
             <FormControl id="email" isRequired isInvalid={error.email}>
               <FormLabel>Email address</FormLabel>
@@ -118,7 +123,8 @@ export default function Login() {
                     variant={"ghost"}
                     onClick={() =>
                       setShowPassword((showPassword) => !showPassword)
-                    }>
+                    }
+                  >
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
@@ -141,7 +147,8 @@ export default function Login() {
                 _hover={{
                   bg: "blue.500",
                 }}
-                onClick={handleSubmit}>
+                onClick={handleSubmit}
+              >
                 Sign in
               </Button>
             </Stack>
@@ -154,7 +161,8 @@ export default function Login() {
                   cursor={"pointer"}
                   onClick={() => {
                     Router.push("/signup");
-                  }}>
+                  }}
+                >
                   Sign up
                 </Text>
               </Text>

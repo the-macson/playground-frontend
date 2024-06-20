@@ -26,6 +26,9 @@ export default function Home() {
   };
   useEffect(() => {
     if (isLoggedIn()) {
+      if(isLoggedIn("admin")){
+        Router.push("/admin/problem");
+      }
       setLoggedIn(true);
     } else return Router.push("/login");
     getProblemsData();

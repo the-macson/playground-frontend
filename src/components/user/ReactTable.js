@@ -85,7 +85,7 @@ export default function ReactTable({ dataArray }) {
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
-        pageIndex: 1, //custom initial page index
+        pageIndex: 0, //custom initial page index
         pageSize: 10, //custom default page size
       },
     },

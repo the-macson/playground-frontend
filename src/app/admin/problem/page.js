@@ -35,6 +35,27 @@ const page = () => {
           {problems.length > 0 && (
             <ReactTable dataArray={problems} />
           )}
+          <Box pos={'absolute'}>
+            <Button
+              style={{
+                position: "fixed",
+                bottom: "20px",
+                right: "20px",
+                zIndex: 1000,
+                fontSize: "30px",
+                backgroundColor: "green",
+                borderRadius: "50%",
+                padding: "10px",
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+              onClick={() => {
+                Router.push("/admin/problem/add-problem");
+              }}>
+              +
+            </Button>
+          </Box>
         </Box>
       )}
     </div>
