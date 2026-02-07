@@ -19,3 +19,7 @@ export function getSubmissions(id) {
 export function getUserProfile() {
   return http.get('/api/user/profile');
 }
+
+export function getLeaderboard() {
+  return http.get('/api/user/leaderboard');
+}
