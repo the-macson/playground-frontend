@@ -38,10 +38,32 @@ export default function Home() {
   }
   return (
     <NavBar>
-      <Box p={3}>
-        {/* <Box fontSize={32}>All Problem</Box> */}
-        {problems.length > 0 && <ReactTable dataArray={problems} />}
-      </Box>
+      <div className="flex flex-col gap-12 pb-20">
+        {/* Hero Section */}
+        <section className="flex flex-col items-center text-center gap-6 mt-12 py-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight">
+            Master the <span className="text-gradient">Logic</span>
+          </h1>
+          <p className="text-default-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Solve world-class coding challenges, pick your favorite language, 
+            and track your progress in real-time.
+          </p>
+          <div className="flex gap-4 mt-2">
+            <div className="glass px-6 py-2 rounded-full text-sm font-medium border-sky-500/20">
+              <span className="text-sky-400">●</span> {problems.length} Challenges
+            </div>
+            <div className="glass px-6 py-2 rounded-full text-sm font-medium border-emerald-500/20">
+              <span className="text-emerald-400">●</span> Multi-language support
+            </div>
+          </div>
+        </section>
+
+        {/* Problems Table Section */}
+        <div className="w-full animate-in fade-in duration-1000 delay-300">
+          {problems.length > 0 && <ReactTable dataArray={problems} />}
+        </div>
+      </div>
     </NavBar>
   );
 }
+
