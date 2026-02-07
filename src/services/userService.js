@@ -15,3 +15,7 @@ export function submitSolution(data) {
 export function getSubmissions(id) {
   return http.get(`/api/user/submission/${id}`);
 }
+
+export function getUserProfile() {
+  return http.get('/api/user/profile');
+}

@@ -37,6 +37,18 @@ export default function NavBar({ children, fullWidth = false }) {
             </Link>
           </NavbarItem>
           <NavbarItem>
+            <Link
+              className='text-foreground/60 hover:text-sky-400 font-medium transition-colors'
+              href='#'
+              onClick={(e) => {
+                e.preventDefault();
+                Router.push('/profile');
+              }}
+            >
+              Profile
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
             <Link className='text-foreground/60 hover:text-sky-400 font-medium transition-colors' href='#'>
               Leaderboard
             </Link>
