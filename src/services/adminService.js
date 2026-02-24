@@ -1,15 +1,15 @@
-import http from "./httpService";
+import http from './httpService';
 
 export function getTags() {
-  return http.get("/api/admin/problem/tags");
+  return http.get('/api/admin/problem/tags');
 }
 
 export function addProblem(data) {
-  return http.post("/api/admin/problem/create-problem", data);
+  return http.post('/api/admin/problem/create-problem', data);
 }
 
 export function getAllProblems() {
-  return http.get("/api/admin/problem");
+  return http.get('/api/admin/problem');
 }
 
 export function getPorblemById(id) {
@@ -18,4 +18,8 @@ export function getPorblemById(id) {
 
 export function updateProblem(id, data) {
   return http.put(`/api/admin/problem/${id}`, data);
+}
+
+export function deleteProblem(id) {
+  return http.delete(`/api/admin/problem/${id}`);
 }

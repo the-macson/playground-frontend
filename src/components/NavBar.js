@@ -11,7 +11,7 @@ export default function NavBar({ children, fullWidth = false }) {
     Router.push('/login');
   };
   const handleProblems = () => {
-    Router.push('/');
+    Router.push('/problem');
   };
 
   return (
