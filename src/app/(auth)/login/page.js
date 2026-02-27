@@ -155,7 +155,7 @@ export default function Login() {
             </Button>
 
             <p className='text-center text-default-500 text-xs'>
-              Don't have an account?{' '}
+              {"Don't have an account? "}
               <Link
                 href='/signup'
                 className='text-sky-400 font-bold uppercase tracking-widest text-[11px] ml-1 hover:underline'

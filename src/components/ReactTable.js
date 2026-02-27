@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   createColumnHelper,
   flexRender,
@@ -7,47 +7,29 @@ import {
   useGlobalFilter,
   getSortedRowModel,
   getPaginationRowModel,
-} from "@tanstack/react-table";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  chakra,
-  Box,
-  Button,
-  Flex,
-  Select,
-  Text,
-} from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+} from '@tanstack/react-table';
+import { Table, Thead, Tbody, Tr, Th, Td, chakra, Box, Button, Flex, Select, Text } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
 
 export default function ReactTable({ dataArray }) {
   const Router = useRouter();
   const columnHelper = createColumnHelper();
   const columns = [
-    columnHelper.accessor("id", {
-      header: "ID",
+    columnHelper.accessor('id', {
+      header: 'ID',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("title", {
-      header: "Title",
+    columnHelper.accessor('title', {
+      header: 'Title',
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("difficulty", {
-      header: "Difficulty",
-      cell: (info) =>
-        info.getValue() == 1
-          ? "Easy"
-          : info.getValue() == 2
-          ? "Medium"
-          : "Hard",
+    columnHelper.accessor('difficulty', {
+      header: 'Difficulty',
+      cell: (info) => (info.getValue() == 1 ? 'Easy' : info.getValue() == 2 ? 'Medium' : 'Hard'),
     }),
     columnHelper.accessor((row) => row.id, {
-      header: "Update",
-      id: "update",
+      header: 'Update',
+      id: 'update',
       cell: (info) => (
         <Button
           onClick={() => {
@@ -61,7 +43,7 @@ export default function ReactTable({ dataArray }) {
   ];
 
   const [isLoading, setIsLoading] = React.useState(true);
-  const data = React.useMemo(() => [...dataArray], []);
+  const data = React.useMemo(() => [...dataArray], [dataArray]);
   const {
     getHeaderGroups,
     getRowModel,
@@ -98,7 +80,7 @@ export default function ReactTable({ dataArray }) {
   return (
     !isLoading && (
       <Box>
-        <Box my="3" borderWidth="1px" borderRadius="lg" overflow="auto">
+        <Box my='3' borderWidth='1px' borderRadius='lg' overflow='auto'>
           <Table>
             <Thead>
               {getHeaderGroups &&
@@ -109,16 +91,14 @@ export default function ReactTable({ dataArray }) {
                         colSpan={header.colSpan}
                         key={header.id}
                         style={{
-                          textAlign: "left",
-                          paddingLeft: "25px",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          borderBottom: "1px solid #e2e8f0",
-                        }}>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                          textAlign: 'left',
+                          paddingLeft: '25px',
+                          paddingTop: '10px',
+                          paddingBottom: '10px',
+                          borderBottom: '1px solid #e2e8f0',
+                        }}
+                      >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
                       </Th>
                     ))}
                   </Tr>
@@ -128,48 +108,40 @@ export default function ReactTable({ dataArray }) {
               {getRowModel().rows.map((row) => (
                 <Tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <Td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </Td>
+                    <Td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</Td>
                   ))}
                 </Tr>
               ))}
             </Tbody>
           </Table>
         </Box>
-        <Flex justify="flex-end">
-          <Flex justify="space-between" gap={2} alignItems={"center"}>
+        <Flex justify='flex-end'>
+          <Flex justify='space-between' gap={2} alignItems={'center'}>
             <Text>
-              Page{" "}
+              Page{' '}
               <strong>
                 {getState().pagination.pageIndex + 1} of {getPageCount()}
-              </strong>{" "}
+              </strong>{' '}
             </Text>
-            <Button
-              onClick={() => firstPage()}
-              isDisabled={!getCanPreviousPage()}>
-              {"<<"}
+            <Button onClick={() => firstPage()} isDisabled={!getCanPreviousPage()}>
+              {'<<'}
             </Button>
-            <Button
-              onClick={() => previousPage()}
-              isDisabled={!getCanPreviousPage()}>
-              {"<"}
+            <Button onClick={() => previousPage()} isDisabled={!getCanPreviousPage()}>
+              {'<'}
             </Button>
             <Button onClick={() => nextPage()} isDisabled={!getCanNextPage()}>
-              {">"}
+              {'>'}
             </Button>
             <Button onClick={() => lastPage()} isDisabled={!getCanNextPage()}>
-              {">>"}
+              {'>>'}
             </Button>
             <Select
               w={24}
               value={getState().pagination.pageSize}
               onChange={(e) => {
                 setPageSize(Number(e.target.value));
-              }}>
+              }}
+            >
               {[10, 20, 30, 40, 50].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
                   {pageSize}

@@ -32,6 +32,7 @@ export default function Home() {
       setLoggedIn(true);
     } else return Router.push("/login");
     getProblemsData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (loadder) {
     return <Spinner />;

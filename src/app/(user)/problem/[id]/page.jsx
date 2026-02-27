@@ -35,7 +35,7 @@ import NavBar from "@/components/NavBar";
 import { useRouter } from "next/navigation";
 import { isLoggedIn } from "@/services/authService";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [problem, setProblem] = useState({});
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -91,6 +91,7 @@ const page = ({ params }) => {
     } else router.push("/login");
     fetchProblem();
     fetchSubmissions();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   const handleSubmit = async () => {
@@ -407,4 +408,4 @@ const page = ({ params }) => {
 };
 
 
-export default page;
+export default Page;

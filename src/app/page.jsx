@@ -204,7 +204,7 @@ export default function LandingPage() {
                     </div>
                     <div className="flex gap-4 mb-4">
                       <span className="text-slate-600">4</span>
-                      <span className="pl-12 text-slate-400 font-medium">const reversed = parseInt(Math.abs(x).toString().split('').reverse().join(''));</span>
+                      <span className="pl-12 text-slate-400 font-medium">{"const reversed = parseInt(Math.abs(x).toString().split('').reverse().join(''));"}</span>
                     </div>
                     <div className="flex gap-4 mb-4">
                       <span className="text-slate-600">5</span>

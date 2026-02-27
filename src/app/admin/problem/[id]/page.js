@@ -67,6 +67,7 @@ export default function EditProblem({ params }) {
       await fetchProblemData();
     };
     initialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Router, id]);
 
   const fetchTags = async () => {
