@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { object, string, number, array } from 'yup';
 import { Save, ArrowLeft, Beaker, Trash2, Plus, Zap } from 'lucide-react';
 import { getTags, getPorblemById, updateProblem } from '../../../../services/adminService';
+import { showToast } from '../../../../util/toast';
 import InternalEditor from '../../../../components/common/InternalEditor';
 import CompactTestCase from '../../../../components/admin/CompactTestCase';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -96,13 +97,7 @@ export default function EditProblem({ params }) {
       );
     } catch (error) {
       console.error('Error fetching problem:', error);
-      Swal.fire({
-        title: 'Error',
-        text: 'Failed to locate the challenge data.',
-        icon: 'error',
-        background: '#020617',
-        color: '#fff',
-      });
+      showToast('Failed to locate the challenge data.', 'error');
     } finally {
       setFetching(false);
     }
@@ -153,22 +148,10 @@ export default function EditProblem({ params }) {
       setLoading(true);
       await problemSchema.validate(data);
       await updateProblem(id, data);
-      Swal.fire({
-        title: 'Updated',
-        text: 'Challenge parameters have been updated.',
-        icon: 'success',
-        background: '#020617',
-        color: '#fff',
-      });
+      showToast('Problem data synchronized.');
       Router.push('/admin/problem');
     } catch (err) {
-      Swal.fire({
-        title: 'Error',
-        text: err.errors ? err.errors[0] : 'Update failed',
-        icon: 'error',
-        background: '#020617',
-        color: '#fff',
-      });
+      showToast(err.errors ? err.errors[0] : 'Check your inputs', 'error');
     } finally {
       setLoading(false);
     }

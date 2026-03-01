@@ -16,6 +16,7 @@ import { Plus, Edit2, Trash2, Search } from 'lucide-react';
 import { isLoggedIn } from '@/services/authService';
 import { useRouter } from 'next/navigation';
 import { getAllProblems, deleteProblem } from '@/services/adminService';
+import { showToast } from '@/util/toast';
 import Swal from 'sweetalert2';
 
 export default function AdminProblemList() {
@@ -58,22 +59,10 @@ export default function AdminProblemList() {
     if (result.isConfirmed) {
       try {
         await deleteProblem(id);
-        Swal.fire({
-          title: 'Deleted!',
-          text: 'Problem has been removed.',
-          icon: 'success',
-          background: '#020617',
-          color: '#fff',
-        });
+        showToast('Problem has been removed.');
         fetchProblems();
       } catch (error) {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Failed to delete the problem.',
-          icon: 'error',
-          background: '#020617',
-          color: '#fff',
-        });
+        showToast('Failed to delete the problem.', 'error');
       }
     }
   };

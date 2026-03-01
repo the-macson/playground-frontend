@@ -34,6 +34,7 @@ import Swal from "sweetalert2";
 import NavBar from "@/components/NavBar";
 import { useRouter } from "next/navigation";
 import { isLoggedIn } from "@/services/authService";
+import { showToast } from "@/util/toast";
 
 const Page = ({ params }) => {
   const [problem, setProblem] = useState({});
@@ -104,13 +105,25 @@ const Page = ({ params }) => {
       const { data } = await submitSolution(body);
       setPassedTestCase(data.passedTestCases);
       fetchSubmissions();
+      
+      showToast(
+        data.status === "Accepted" ? "Solution Accepted" : `Failed: ${data.status}`,
+        data.status === "Accepted" ? "success" : "error"
+      );
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: JSON.stringify(error.response?.data?.error || "Submission failed"),
-      });
+      showToast(error.response?.data?.error || "Submission failed", "error");
     }
+  };
+
+  const handleViewSubmission = (submissionId) => {
+    const sub = submissions.find((s) => s.id === parseInt(submissionId));
+    if (!sub) return;
+
+    setCode(sub.code);
+    const lang = programmingLanguage.find((l) => l.key === sub.language);
+    if (lang) setSelectedLanguage(lang);
+
+    showToast("Previous submission loaded", "info");
   };
 
   if (loading) {
@@ -217,7 +230,14 @@ const Page = ({ params }) => {
                     </div>
                   ) : (
                     <div className="animate-in fade-in slide-in-from-right-4 duration-500">
-                      <Table aria-label="Submissions" shadow="none" className="bg-transparent" removeWrapper>
+                      <Table 
+                        aria-label="Submissions" 
+                        shadow="none" 
+                        className="bg-transparent" 
+                        removeWrapper
+                        selectionMode="single"
+                        onRowAction={handleViewSubmission}
+                      >
                         <TableHeader>
                           <TableColumn className="bg-transparent text-default-500 font-bold">STATUS</TableColumn>
                           <TableColumn className="bg-transparent text-default-500 font-bold">LANGUAGE</TableColumn>
@@ -226,7 +246,7 @@ const Page = ({ params }) => {
                         </TableHeader>
                         <TableBody emptyContent={"No submissions yet."}>
                           {submissions.map((sub) => (
-                            <TableRow key={sub.id} className="border-b border-white/5 hover:bg-white/5 transition-all group">
+                            <TableRow key={sub.id} className="border-b border-white/5 hover:bg-white/5 transition-all group cursor-pointer">
                               <TableCell>
                                 <Chip
                                   color={sub.status === "Accepted" ? "success" : "danger"}
@@ -334,6 +354,7 @@ const Page = ({ params }) => {
               <ReactCodeMirror
                 width="100%"
                 height="100%"
+                value={code}
                 theme={tokyoNight}
                 extensions={getExtensions()}
                 onChange={(value) => setCode(value)}

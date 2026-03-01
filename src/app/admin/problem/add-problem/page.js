@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { object, string, number, array } from 'yup';
 import { Plus, Trash2, Save, ArrowLeft, Beaker, Zap } from 'lucide-react';
 import { getTags, addProblem } from '../../../../services/adminService';
+import { showToast } from '../../../../util/toast';
 import InternalEditor from '../../../../components/common/InternalEditor';
 import CompactTestCase from '../../../../components/admin/CompactTestCase';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -117,22 +118,10 @@ export default function AddProblem() {
       setLoading(true);
       await problemSchema.validate(data);
       await addProblem(data);
-      Swal.fire({
-        title: 'Success',
-        text: 'Problem synthesized successfully',
-        icon: 'success',
-        background: '#020617',
-        color: '#fff',
-      });
+      showToast('Problem synthesized successfully');
       Router.push('/admin/problem');
     } catch (err) {
-      Swal.fire({
-        title: 'Validation Error',
-        text: err.errors ? err.errors[0] : 'Check your inputs',
-        icon: 'error',
-        background: '#020617',
-        color: '#fff',
-      });
+      showToast(err.errors ? err.errors[0] : 'Check your inputs', 'error');
     } finally {
       setLoading(false);
     }
