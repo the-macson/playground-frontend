@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="font-inter">
+      <body className="font-sans">
 
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <Providers>

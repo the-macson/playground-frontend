@@ -1,7 +1,4 @@
-h1,
-p {
-  font-family: Lato;
-}
+/* Removed Lato font overrides to use global brand fonts */
 
 .gutter {
   background: rgba(255, 255, 255, 0.05);
