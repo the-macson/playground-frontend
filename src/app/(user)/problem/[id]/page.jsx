@@ -44,6 +44,7 @@ const Page = ({ params }) => {
   const [code, setCode] = useState("");
   const [submissions, setSubmissions] = useState([]);
   const [activeTab, setActiveTab] = useState("description");
+  const [executionError, setExecutionError] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState({
     key: "cpp",
     label: "C++",
@@ -104,6 +105,7 @@ const Page = ({ params }) => {
     try {
       const { data } = await submitSolution(body);
       setPassedTestCase(data.passedTestCases);
+      setExecutionError(data.error || "");
       fetchSubmissions();
       
       showToast(
@@ -111,6 +113,7 @@ const Page = ({ params }) => {
         data.status === "Accepted" ? "success" : "error"
       );
     } catch (error) {
+      setExecutionError(error.response?.data?.error || "Submission failed");
       showToast(error.response?.data?.error || "Submission failed", "error");
     }
   };
@@ -120,6 +123,7 @@ const Page = ({ params }) => {
     if (!sub) return;
 
     setCode(sub.code);
+    setExecutionError(sub.errorMessage || "");
     const lang = programmingLanguage.find((l) => l.key === sub.language);
     if (lang) setSelectedLanguage(lang);
 
@@ -387,6 +391,32 @@ const Page = ({ params }) => {
                 }}
               />
             </div>
+
+            {/* Terminal / Error Panel */}
+            {executionError && (
+              <div className="h-1/3 border-t border-white/5 bg-[#010409] animate-in slide-in-from-bottom duration-300">
+                <div className="flex items-center justify-between px-6 py-2 border-b border-white/5 bg-black/40">
+                   <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.4)]"></div>
+                      <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest font-mono">Execution Output / Traceback</span>
+                   </div>
+                   <Button 
+                      isIconOnly 
+                      size="sm" 
+                      variant="light" 
+                      onClick={() => setExecutionError("")}
+                      className="text-white/20 hover:text-white"
+                   >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                   </Button>
+                </div>
+                <ScrollShadow hideScrollBar className="p-6 h-[calc(100%-40px)] overflow-y-auto">
+                    <pre className="text-rose-400 font-mono text-sm leading-relaxed whitespace-pre-wrap">
+                      {executionError}
+                    </pre>
+                </ScrollShadow>
+              </div>
+            )}
           </div>
         </Split>
       </div>
